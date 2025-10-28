@@ -97,7 +97,6 @@ export default function LearningStyleDetector() {
   });
   const [showResults, setShowResults] = useState(false);
   const [savedStyle, setSavedStyle] = useState<LearningStyle>("unknown");
-  const [answered, setAnswered] = useState(false);
 
   useEffect(() => {
     // Check if user has already completed the assessment
@@ -157,7 +156,6 @@ export default function LearningStyleDetector() {
     setCurrentQuestion(0);
     setScores({ visual: 0, auditory: 0, reading: 0, kinesthetic: 0 });
     setShowResults(false);
-    setAnswered(false);
   };
 
   if (savedStyle !== "unknown" && !isOpen) {
@@ -229,7 +227,6 @@ export default function LearningStyleDetector() {
                       key={idx}
                       onClick={() => {
                         handleAnswer(answer.style);
-                        setAnswered(true);
                       }}
                       className="w-full p-4 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-indigo-400/50 text-white rounded-xl text-left font-medium transition-all transform hover:scale-102 active:scale-95"
                     >
