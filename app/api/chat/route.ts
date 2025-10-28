@@ -1,13 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-interface UserProfile {
-  learningStyle: "visual" | "auditory" | "kinesthetic" | "reading" | "unknown";
-  currentLevel: "beginner" | "intermediate" | "advanced" | "unknown";
-  pace: "slow" | "normal" | "fast";
-  messagesCount: number;
-  skillValidationCount: number;
-}
-
 // Intelligent adaptive responses
 const adaptiveResponses = {
   photosynthesis: {
