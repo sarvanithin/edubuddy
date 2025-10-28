@@ -198,6 +198,108 @@ So: x = 10/2 = 5
 ❓ **Deep Question:** Why is Gaussian elimination O(n³) and can we do better for sparse matrices?
 
 Let's explore computational complexity! 🔬`,
+    },
+  python: {
+    beginner: `🐍 **Welcome to Python!**
+
+Awesome! Python is a fantastic language to start programming!
+
+**Why Python?**
+- Simple, readable syntax
+- Great for beginners
+- Powerful for real projects
+- Used by everyone (Google, Netflix, NASA!)
+
+**Key Concepts:**
+1. **Variables**: Store data (like boxes)
+2. **Data Types**: Numbers, Text, True/False
+3. **Lists**: Multiple items together
+4. **Loops**: Repeat actions
+5. **Conditions**: Make decisions
+
+**Your First Program:**
+\`\`\`python
+name = "Python Learner"
+print("Hello, " + name)
+\`\`\`
+
+**Quick Challenge:**
+Can you create a variable with your name and print it?
+
+❓ **Quick Question:** What do you think \`print()\` does in Python?
+A) Sends to printer
+B) Shows text on screen
+C) Saves to file
+D) Stores data
+
+Give it a try! 🎯`,
+
+    intermediate: `🐍 **Python Programming - Intermediate**
+
+Great! Let's dive deeper:
+
+**Functions & Loops:**
+\`\`\`python
+def greet(name):
+    return f"Hello, {name}!"
+
+for i in range(5):
+    print(greet("Student"))
+\`\`\`
+
+**Lists & Dictionaries:**
+\`\`\`python
+students = ["Alice", "Bob", "Charlie"]
+grades = {"Alice": 95, "Bob": 87}
+\`\`\`
+
+**Key Skills:**
+- File operations
+- Error handling (try-except)
+- List comprehensions
+- String manipulation
+
+**Best Practices:**
+- PEP 8 style guide
+- Naming conventions
+- Code documentation
+
+❓ **Challenge:** Write a function that takes a list and returns the average!`,
+
+    advanced: `🐍 **Advanced Python & OOP**
+
+You're ready for professional Python!
+
+**Object-Oriented Programming:**
+\`\`\`python
+class DataProcessor:
+    def __init__(self, data):
+        self.data = data
+
+    def process(self):
+        return [x * 2 for x in self.data]
+\`\`\`
+
+**Advanced Topics:**
+- Decorators & metaclasses
+- Generators & iterators
+- Async/await programming
+- Type hints & annotations
+
+**Libraries & Frameworks:**
+- NumPy: Numerical computing
+- Pandas: Data analysis
+- Django/Flask: Web frameworks
+- TensorFlow: Machine learning
+
+**Design Patterns:**
+- Singleton, Factory, Observer
+- SOLID principles
+- Architectural patterns
+
+❓ **Expert Question:** How would you implement a decorator to measure execution time?
+
+Let's build production-grade code! 🚀`,
   },
 };
 
@@ -219,6 +321,11 @@ const validationQuestions = {
     "Can you explain why we do the same operation on both sides of an equation?",
     "What's the difference between a coefficient and a variable?",
     "Can you solve a similar equation on your own?",
+  ],
+  python: [
+    "What's the difference between a list and a dictionary in Python?",
+    "Can you explain what a function is and why we use them?",
+    "Write a simple Python loop that prints numbers 1-5.",
   ],
 };
 
@@ -266,6 +373,18 @@ function getAdaptiveResponse(topic: string, messageCount: number): string {
     return response;
   }
 
+  if (topic.toLowerCase().includes("python") || topic.toLowerCase().includes("loop") || topic.toLowerCase().includes("programming")) {
+    const responses = adaptiveResponses.python;
+    const response = responses[level as keyof typeof responses];
+
+    if (messageCount % 2 === 0) {
+      const validationQ = validationQuestions.python[Math.floor(messageCount / 3) % validationQuestions.python.length];
+      return response + `\n\n🎯 **Let me check your understanding:**\n${validationQ}`;
+    }
+
+    return response;
+  }
+
   // Default adaptive response
   return `That's a great question! Based on your learning style, let me explain this in a way that works best for you.\n\nFirst, I'd like to understand better:\n${assessmentQuestions[0]}\n\nThis helps me teach you in the most effective way! 📚`;
 }
@@ -285,6 +404,8 @@ export async function POST(request: NextRequest) {
       topic = "photosynthesis";
     } else if (userInput.toLowerCase().includes("2x + 5") || userInput.toLowerCase().includes("solve") || userInput.toLowerCase().includes("equation")) {
       topic = "math";
+    } else if (userInput.toLowerCase().includes("python") || userInput.toLowerCase().includes("loop") || userInput.toLowerCase().includes("programming")) {
+      topic = "python";
     }
 
     // Get adaptive response based on user level
