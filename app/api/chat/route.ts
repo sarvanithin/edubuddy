@@ -228,7 +228,7 @@ function determineLevel(messageCount: number): "beginner" | "intermediate" | "ad
   return "advanced";
 }
 
-function getAdaptiveResponse(topic: string, userMessage: string, messageCount: number): string {
+function getAdaptiveResponse(topic: string, messageCount: number): string {
   const level = determineLevel(messageCount);
 
   // Check if it's an assessment question response
@@ -288,7 +288,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get adaptive response based on user level
-    const adaptiveResponse = getAdaptiveResponse(userInput, userInput, messageCount);
+    const adaptiveResponse = getAdaptiveResponse(topic, messageCount);
 
     // Simulate real API delay
     await new Promise((resolve) => setTimeout(resolve, 1200));
